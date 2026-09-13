@@ -42,7 +42,7 @@ class BakeApp extends StatelessWidget {
 class Tokens {
   static const bg = Color(0xFF0A0A0A);
   static const surface = Color(0xFF161616);
-  static const surfaceHigh = Color(0xFF1F1F1F);
+  static const surfaceHigh = Color(0xFF101010);
   static const textPrimary = Color(0xFFF7F7F7);
   static const textMuted = Color(0xFF8A8A8A);
   static const textFaint = Color(0xFF3D3D3D);
@@ -123,8 +123,8 @@ class _BakeHomePageState extends State<BakeHomePage> {
                   child: Text(
                     'What do you want to\nbake?',
                     style: _font(
-                      size: 28,
-                      weight: FontWeight.w700,
+                      size: 27,
+                      weight: FontWeight.w600,
                       letterSpacing: -0.8,
                       height: 1.22,
                     ),
@@ -226,7 +226,7 @@ class CircularWordWheel extends StatefulWidget {
 class _CircularWordWheelState extends State<CircularWordWheel>
     with SingleTickerProviderStateMixin {
   /// Angle between two consecutive items, in radians.
-  static const double _step = 12 * math.pi / 180;
+  static const double _step = 14 * math.pi / 180;
 
   /// Radius of the (mostly off-screen) circle.
   static const double _radius = 340;
@@ -399,57 +399,42 @@ class _CircularWordWheelState extends State<CircularWordWheel>
           child: Stack(
             clipBehavior: Clip.none,
             children: [
-              // Soft green halo behind the selected word.
+              // Soft green spot  behind the selected word.
               Positioned(
-                left: _centerX + _radius - 40,
-                top: centerY - 110,
+                left: _centerX + _radius - 20,
+                top: centerY - 25,
                 child: IgnorePointer(
                   child: Container(
                     width: 260,
-                    height: 220,
+                    height: 50,
+
+                    transform: Matrix4.identity()
+                      ..setEntry(3, 2, -0.005)
+                      ..rotateY(-0.6)
+                      ..rotateX(0.12)
+                      ..rotateZ(-0.08),
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: RadialGradient(
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: LinearGradient(
                         colors: [
-                          Tokens.glow.withValues(alpha: 0.16),
-                          Tokens.glow.withValues(alpha: 0.05),
+                          Tokens.glow.withValues(alpha: 0.15),
                           Colors.transparent,
                         ],
-                        stops: const [0.0, 0.45, 1.0],
+                        // stops: const [0.0, 1.0],
                       ),
                     ),
                   ),
                 ),
               ),
               // Faint dial rings.
-              Positioned.fill(
-                child: IgnorePointer(
-                  child: CustomPaint(
-                    painter: _DialPainter(center: center, radius: _radius),
-                  ),
+              DialRings(
+                center: center,
+                child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: DialRings(center: Offset.zero),
                 ),
               ),
               ...children,
-              // Edge fades top and bottom.
-              Positioned.fill(
-                child: IgnorePointer(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Tokens.bg,
-                          Tokens.bg.withValues(alpha: 0.0),
-                          Tokens.bg.withValues(alpha: 0.0),
-                          Tokens.bg,
-                        ],
-                        stops: const [0.0, 0.14, 0.84, 1.0],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
               // Custom scroll indicator on the right edge.
               Positioned(
                 right: 12,
@@ -474,37 +459,49 @@ class _CircularWordWheelState extends State<CircularWordWheel>
   double _lerp(double a, double b, double t) => a + (b - a) * t;
 }
 
-/// Faint concentric arcs suggesting a physical dial.
-class _DialPainter extends CustomPainter {
-  _DialPainter({required this.center, required this.radius});
+class DialRings extends StatelessWidget {
+  const DialRings({super.key, this.size, this.child, required this.center});
 
+  final Widget? size;
+  final Widget? child;
   final Offset center;
-  final double radius;
 
   @override
-  void paint(Canvas canvas, Size size) {
-    final c = Offset(center.dx, size.height / 2);
-    for (final r in [radius * 0.34, radius * 0.46, radius * 0.58]) {
-      canvas.drawCircle(
-        c,
-        r,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1
-          ..color = Colors.white.withValues(alpha: 0.045),
-      );
-    }
-    canvas.drawCircle(
-      c,
-      radius * 0.80,
-      // radius * 0.30,
-      Paint()..color = Colors.white.withValues(alpha: 0.02),
+  Widget build(BuildContext context) {
+    return Transform.translate(
+      offset: Offset(-250, center.dy / 10),
+      child: IgnorePointer(
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: RadialGradient(
+              colors: [
+                Tokens.bg,
+                Colors.grey.shade800.withValues(alpha: 0.18),
+              ],
+              stops: const [0.915, 1.0],
+            ),
+          ),
+          alignment: Alignment.center,
+          padding: EdgeInsets.all(50),
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: RadialGradient(
+                colors: [
+                  Colors.black,
+                  Colors.grey.shade800.withValues(alpha: 0.18),
+                ],
+                stops: const [0.9, 1.0],
+              ),
+            ),
+            alignment: Alignment.center,
+            child: child,
+          ),
+        ),
+      ),
     );
   }
-
-  @override
-  bool shouldRepaint(covariant _DialPainter old) =>
-      old.center != center || old.radius != radius;
 }
 
 /// Pill-shaped track with a thumb that carries up/down chevrons.
@@ -527,7 +524,7 @@ class _WheelScrollbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        const thumbHeight = 44.0;
+        const thumbHeight = 48.0;
         const trackInset = 24.0;
         final travel = constraints.maxHeight - thumbHeight - trackInset * 2;
 
@@ -574,7 +571,7 @@ class _WheelScrollbar extends StatelessWidget {
                   width: 18,
                   height: thumbHeight,
                   decoration: BoxDecoration(
-                    color: active ? Colors.white : const Color(0xFFE8E8E8),
+                    color: active ? Colors.white : const Color(0xFFEFEFEF),
                     borderRadius: BorderRadius.circular(9),
                   ),
                   child: const Column(
@@ -585,7 +582,13 @@ class _WheelScrollbar extends StatelessWidget {
                         size: 14,
                         color: Color(0xFF2A2A2A),
                       ),
-                      SizedBox(height: 2),
+                      SizedBox(height: 1),
+                      Icon(
+                        Icons.menu,
+                        size: 12,
+                        color: Color(0xFF2A2A2A),
+                      ),
+                      SizedBox(height: 1),
                       Icon(
                         Icons.keyboard_arrow_down_rounded,
                         size: 14,
