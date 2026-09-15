@@ -1,11 +1,3 @@
-// Bake picker screen — circular word wheel
-// Single-file Flutter app. Drop into lib/main.dart and run.
-//
-// Optional (recommended for the exact look): add to pubspec.yaml
-//   dependencies:
-//     google_fonts: ^6.2.1
-// then swap the `_font` helper below for GoogleFonts.poppins(...).
-
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,6 +17,7 @@ class BakeApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
+        fontFamily: "Poppins",
         scaffoldBackgroundColor: const Color(0xFF060606),
         colorScheme: const ColorScheme.dark(
           surface: Color(0xFF0A0A0A),
@@ -80,6 +73,10 @@ class FoodModel {
   final String description;
 }
 
+int  durationMin =  250;
+final durationMax = 300;
+
+
 class BakeHomePage extends StatefulWidget {
   const BakeHomePage({super.key});
 
@@ -87,109 +84,128 @@ class BakeHomePage extends StatefulWidget {
   State<BakeHomePage> createState() => _BakeHomePageState();
 }
 
+
 class _BakeHomePageState extends State<BakeHomePage> {
   static const _foods = <FoodModel>[
     FoodModel(
       name: 'Pretzel',
       imageAsset: 'assets/images/pretzel.jpg',
-      description: 'Twisted, chewy dough with a crisp, salty crust.',
+      description:
+          'Twisted, chewy dough with a crisp, salty crust and a warm, toasty finish.',
     ),
     FoodModel(
       name: 'Scone',
       imageAsset: 'assets/images/scone.jpg',
-      description: 'Tender and buttery with a lightly crisp golden edge.',
+      description:
+          'Tender and buttery with a lightly crisp golden edge, perfect with jam or clotted cream.',
     ),
     FoodModel(
       name: 'Muffin',
       imageAsset: 'assets/images/muffin.jpg',
-      description: 'Soft, fluffy crumb with a sweet bakery-style top.',
+      description:
+          'Soft, fluffy crumb with a sweet bakery-style top and plenty of comforting, homemade flavor.',
     ),
     FoodModel(
       name: 'Bagel',
       imageAsset: 'assets/images/bagel.jpg',
-      description: 'A glossy, chewy classic with a dense, satisfying bite.',
+      description:
+          'A glossy, chewy classic with a dense, satisfying bite and a lightly toasted exterior.',
     ),
     FoodModel(
       name: 'Danish',
       imageAsset: 'assets/images/danish.jpg',
-      description: 'Flaky laminated pastry layered around a sweet center.',
+      description:
+          'Flaky laminated pastry layered around a sweet center, finished with delicate golden folds.',
     ),
     FoodModel(
       name: 'Macaron',
       imageAsset: 'assets/images/macaron.jpg',
-      description: 'Delicate almond shells with a smooth, creamy filling.',
+      description:
+          'Delicate almond shells with a smooth, creamy filling and a lovely contrast of textures.',
     ),
     FoodModel(
       name: 'Éclair',
       imageAsset: 'assets/images/eclair.jpg',
-      description: 'Light choux pastry filled with silky custard and glaze.',
+      description:
+          'Light choux pastry filled with silky custard and topped with a glossy, delicate glaze.',
     ),
     FoodModel(
       name: 'Strudel',
       imageAsset: 'assets/images/strudel.jpg',
-      description: 'Paper-thin pastry wrapped around warm spiced fruit.',
+      description:
+          'Paper-thin pastry wrapped around warm spiced fruit, creating a crisp, fragrant dessert.',
     ),
     FoodModel(
       name: 'Crumpet',
       imageAsset: 'assets/images/crumpet.jpg',
-      description: 'A tender, airy breakfast bake made for melting butter.',
+      description:
+          'A tender, airy breakfast bake made for melting butter, with tiny pockets that catch every bite.',
     ),
     FoodModel(
       name: 'Cheesecake',
       imageAsset: 'assets/images/cheesecake.jpg',
-      description: 'Rich, creamy filling balanced by a delicate biscuit base.',
+      description:
+          'Rich, creamy filling balanced by a delicate biscuit base and a smooth, luxurious finish.',
     ),
     FoodModel(
       name: 'Focaccia',
       imageAsset: 'assets/images/focaccia.jpg',
-      description: 'Olive-oil-rich bread with a crisp top and airy crumb.',
+      description:
+          'Olive-oil-rich bread with a crisp top, airy crumb, and fragrant herbs baked into every slice.',
     ),
     FoodModel(
       name: 'Cookies',
       imageAsset: 'assets/images/cookies.jpg',
-      description: 'Golden-edged treats with a soft, warmly spiced center.',
+      description:
+          'Golden-edged treats with a soft, warmly spiced center and just the right amount of sweetness.',
     ),
     FoodModel(
       name: 'Cinnamon roll',
       imageAsset: 'assets/images/cinnamon_roll.jpg',
-      description: 'Pillowy spirals swirled with cinnamon sugar and glaze.',
+      description:
+          'Pillowy spirals swirled with cinnamon sugar and finished with a smooth, delicate glaze.',
     ),
     FoodModel(
       name: 'Banana bread',
       imageAsset: 'assets/images/banana_bread.avif',
       description:
-          'Moist, fragrant loaf with ripe banana and toasted sweetness.',
+          'Moist, fragrant loaf with ripe banana, toasted sweetness, and a tender crumb that stays soft.',
     ),
     FoodModel(
       name: 'Baguette',
       imageAsset: 'assets/images/baguette.jpg',
-      description: 'Crackly French bread with a light, open interior.',
+      description:
+          'Crackly French bread with a light, open interior and a deeply golden crust made for tearing.',
     ),
     FoodModel(
       name: 'Sourdough',
       imageAsset: 'assets/images/sourdough.jpg',
       description:
-          'Naturally fermented bread with a tangy flavor and chewy crust.',
+          'Naturally fermented bread with a tangy flavor, chewy crust, and a beautifully open interior.',
     ),
     FoodModel(
       name: 'Croissant',
       imageAsset: 'assets/images/croissant.jpg',
-      description: 'Buttery, flaky layers that shatter with every bite.',
+      description:
+          'Buttery, flaky layers that shatter with every bite and reveal a soft, airy center.',
     ),
     FoodModel(
       name: 'Bagel',
       imageAsset: 'assets/images/bagel.jpg',
-      description: 'A toasted, chewy ring ready for a generous spread.',
+      description:
+          'A toasted, chewy ring ready for a generous spread, whether sweet, savory, or simply buttery.',
     ),
     FoodModel(
       name: 'Brioche',
       imageAsset: 'assets/images/brioche.jpg',
-      description: 'Rich, tender bread with a soft crumb and buttery finish.',
+      description:
+          'Rich, tender bread with a soft crumb, buttery finish, and a subtle sweetness that makes it irresistible.',
     ),
     FoodModel(
       name: 'Ciabatta',
       imageAsset: 'assets/images/ciabatta.jpg',
-      description: 'Rustic Italian bread with a crisp crust and open crumb.',
+      description:
+          'Rustic Italian bread with a crisp crust, open crumb, and plenty of room for olive oil or fillings.',
     ),
   ];
 
@@ -228,7 +244,7 @@ class _BakeHomePageState extends State<BakeHomePage> {
                   const SizedBox(height: 26),
 
                   AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 300),
+                    duration: Duration(milliseconds: durationMin),
                     transitionBuilder: (child, animation) {
                       return AlignTransition(
                         alignment: Tween<AlignmentGeometry>(
@@ -272,10 +288,10 @@ class _BakeHomePageState extends State<BakeHomePage> {
                   const SizedBox(height: 10),
                   Expanded(
                     child: AnimatedSlide(
-                      duration: Duration(milliseconds: 350),
+                      duration: Duration(milliseconds: durationMax),
                       offset: picked ? Offset(-1.5, 0) : Offset.zero,
                       child: AnimatedRotation(
-                        duration: Duration(milliseconds: 350),
+                        duration: Duration(milliseconds: durationMax),
                         turns: picked ? -0.25 : 0,
                         child: CircularWordWheel(
                           items: _itemNames,
@@ -322,10 +338,10 @@ class _BakeHomePageState extends State<BakeHomePage> {
 
               return Center(
                 child: AnimatedSlide(
-                  duration: Duration(milliseconds: 600),
+                  duration: Duration(milliseconds: durationMin * 2),
                   offset: picked ? Offset(0, 0) : Offset(0, 1.8),
                   child: AnimatedRotation(
-                    duration: Duration(milliseconds: 600),
+                    duration: Duration(milliseconds: durationMin * 2),
                     alignment: Alignment.bottomCenter,
                     turns: picked ? turns1 : turns0,
                     child: Container(
@@ -494,7 +510,7 @@ class _SearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 300),
+      duration: Duration(milliseconds: durationMin),
       transitionBuilder: (child, animation) {
         return FadeTransition(opacity: animation, child: child);
       },
@@ -784,7 +800,7 @@ class _CircularWordWheelState extends State<CircularWordWheel>
                 child: IgnorePointer(
                   child: AnimatedOpacity(
                     opacity: _dragging ? 0.6 : 1,
-                    duration: Duration(milliseconds: 350),
+                    duration: Duration(milliseconds: durationMax),
                     child: Container(
                       width: 260,
                       height: 50,
