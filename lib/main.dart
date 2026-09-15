@@ -25,7 +25,7 @@ class BakeApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        scaffoldBackgroundColor: const Color(0xFF0A0A0A),
+        scaffoldBackgroundColor: const Color(0xFF060606),
         colorScheme: const ColorScheme.dark(
           surface: Color(0xFF0A0A0A),
           primary: Colors.white,
@@ -39,20 +39,20 @@ class BakeApp extends StatelessWidget {
 /// ---------------------------------------------------------------------------
 /// Design tokens
 /// ---------------------------------------------------------------------------
-class Tokens {
-  static const bg = Color(0xFF0A0A0A);
+class AppColor {
+  static const bg = Color(0xFF060606);
   static const surface = Color(0xFF161616);
   static const surfaceHigh = Color(0xFF101010);
   static const textPrimary = Color(0xFFF7F7F7);
   static const textMuted = Color(0xFF8A8A8A);
   static const textFaint = Color(0xFF3D3D3D);
-  static const glow = Color(0xFF9BE15D); // soft green halo behind selection
+  static const glow = Colors.cyanAccent; // soft green halo behind selection
 }
 
 TextStyle _font({
   double size = 16,
   FontWeight weight = FontWeight.w500,
-  Color color = Tokens.textPrimary,
+  Color color = AppColor.textPrimary,
   double letterSpacing = -0.2,
   double height = 1.15,
 }) {
@@ -68,6 +68,18 @@ TextStyle _font({
 /// ---------------------------------------------------------------------------
 /// Screen
 /// ---------------------------------------------------------------------------
+class FoodModel {
+  const FoodModel({
+    required this.name,
+    required this.imageAsset,
+    required this.description,
+  });
+
+  final String name;
+  final String imageAsset;
+  final String description;
+}
+
 class BakeHomePage extends StatefulWidget {
   const BakeHomePage({super.key});
 
@@ -76,82 +88,396 @@ class BakeHomePage extends StatefulWidget {
 }
 
 class _BakeHomePageState extends State<BakeHomePage> {
-  static const _items = <String>[
-    'Pretzel',
-    'Scone',
-    'Muffin',
-    'Bagel',
-    'Danish',
-    'Macaron',
-    'Éclair',
-    'Strudel',
-    'Crumpet',
-    'Cheesecake',
-    'Focaccia',
-    'Cookies',
-    'Cinnamon roll',
-    'Banana bread',
-    'Baguette',
-    'Sourdough',
-    'Croissant',
-    'Bagel',
-    'Brioche',
-    'Ciabatta',
+  static const _foods = <FoodModel>[
+    FoodModel(
+      name: 'Pretzel',
+      imageAsset: 'assets/images/pretzel.jpg',
+      description: 'Twisted, chewy dough with a crisp, salty crust.',
+    ),
+    FoodModel(
+      name: 'Scone',
+      imageAsset: 'assets/images/scone.jpg',
+      description: 'Tender and buttery with a lightly crisp golden edge.',
+    ),
+    FoodModel(
+      name: 'Muffin',
+      imageAsset: 'assets/images/muffin.jpg',
+      description: 'Soft, fluffy crumb with a sweet bakery-style top.',
+    ),
+    FoodModel(
+      name: 'Bagel',
+      imageAsset: 'assets/images/bagel.jpg',
+      description: 'A glossy, chewy classic with a dense, satisfying bite.',
+    ),
+    FoodModel(
+      name: 'Danish',
+      imageAsset: 'assets/images/danish.jpg',
+      description: 'Flaky laminated pastry layered around a sweet center.',
+    ),
+    FoodModel(
+      name: 'Macaron',
+      imageAsset: 'assets/images/macaron.jpg',
+      description: 'Delicate almond shells with a smooth, creamy filling.',
+    ),
+    FoodModel(
+      name: 'Éclair',
+      imageAsset: 'assets/images/eclair.jpg',
+      description: 'Light choux pastry filled with silky custard and glaze.',
+    ),
+    FoodModel(
+      name: 'Strudel',
+      imageAsset: 'assets/images/strudel.jpg',
+      description: 'Paper-thin pastry wrapped around warm spiced fruit.',
+    ),
+    FoodModel(
+      name: 'Crumpet',
+      imageAsset: 'assets/images/crumpet.jpg',
+      description: 'A tender, airy breakfast bake made for melting butter.',
+    ),
+    FoodModel(
+      name: 'Cheesecake',
+      imageAsset: 'assets/images/cheesecake.jpg',
+      description: 'Rich, creamy filling balanced by a delicate biscuit base.',
+    ),
+    FoodModel(
+      name: 'Focaccia',
+      imageAsset: 'assets/images/focaccia.jpg',
+      description: 'Olive-oil-rich bread with a crisp top and airy crumb.',
+    ),
+    FoodModel(
+      name: 'Cookies',
+      imageAsset: 'assets/images/cookies.jpg',
+      description: 'Golden-edged treats with a soft, warmly spiced center.',
+    ),
+    FoodModel(
+      name: 'Cinnamon roll',
+      imageAsset: 'assets/images/cinnamon_roll.jpg',
+      description: 'Pillowy spirals swirled with cinnamon sugar and glaze.',
+    ),
+    FoodModel(
+      name: 'Banana bread',
+      imageAsset: 'assets/images/banana_bread.avif',
+      description:
+          'Moist, fragrant loaf with ripe banana and toasted sweetness.',
+    ),
+    FoodModel(
+      name: 'Baguette',
+      imageAsset: 'assets/images/baguette.jpg',
+      description: 'Crackly French bread with a light, open interior.',
+    ),
+    FoodModel(
+      name: 'Sourdough',
+      imageAsset: 'assets/images/sourdough.jpg',
+      description:
+          'Naturally fermented bread with a tangy flavor and chewy crust.',
+    ),
+    FoodModel(
+      name: 'Croissant',
+      imageAsset: 'assets/images/croissant.jpg',
+      description: 'Buttery, flaky layers that shatter with every bite.',
+    ),
+    FoodModel(
+      name: 'Bagel',
+      imageAsset: 'assets/images/bagel.jpg',
+      description: 'A toasted, chewy ring ready for a generous spread.',
+    ),
+    FoodModel(
+      name: 'Brioche',
+      imageAsset: 'assets/images/brioche.jpg',
+      description: 'Rich, tender bread with a soft crumb and buttery finish.',
+    ),
+    FoodModel(
+      name: 'Ciabatta',
+      imageAsset: 'assets/images/ciabatta.jpg',
+      description: 'Rustic Italian bread with a crisp crust and open crumb.',
+    ),
   ];
 
-  int _selected = 9; // Focaccia
+  static List<String> get _itemNames =>
+      _foods.map((food) => food.name).toList(growable: false);
+
+  int _selected = 10; // Focaccia
   int _navIndex = 0;
+  bool picked = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          SafeArea(
-            bottom: false,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 8),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: _SearchField(),
-                ),
-                const SizedBox(height: 26),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    'What do you want to\nbake?',
-                    style: _font(
-                      size: 27,
-                      weight: FontWeight.w600,
-                      letterSpacing: -0.8,
-                      height: 1.22,
+    return PopScope(
+      canPop: !picked,
+      onPopInvokedWithResult: (_, _) {
+        if (picked) setState(() => picked = false);
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            SafeArea(
+              bottom: false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 8),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: _SearchField(
+                      picked: picked,
+                      onPop: () {
+                        setState(() => picked = false);
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 26),
+
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    transitionBuilder: (child, animation) {
+                      return AlignTransition(
+                        alignment: Tween<AlignmentGeometry>(
+                          begin: Alignment.center,
+                          end: Alignment.centerLeft,
+                        ).animate(animation),
+                        child: FadeTransition(opacity: animation, child: child),
+                      );
+                    },
+                    child: picked
+                        ? Center(
+                            key: ValueKey(0),
+                            child: Container(
+                              height: 70,
+                              margin: const EdgeInsets.only(top: 10),
+                              child: Text(
+                                _foods[_selected].name.toUpperCase(),
+                                style: _font(
+                                  size: 35,
+                                  weight: FontWeight.w800,
+                                  letterSpacing: -0.8,
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            height: 70,
+                            key: ValueKey(1),
+                            margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                            child: Text(
+                              'What do you want to\nbake?',
+                              style: _font(
+                                size: 27,
+                                weight: FontWeight.w600,
+                                letterSpacing: -0.8,
+                                height: 1.22,
+                              ),
+                            ),
+                          ),
+                  ),
+                  const SizedBox(height: 10),
+                  Expanded(
+                    child: AnimatedSlide(
+                      duration: Duration(milliseconds: 350),
+                      offset: picked ? Offset(-1.5, 0) : Offset.zero,
+                      child: AnimatedRotation(
+                        duration: Duration(milliseconds: 350),
+                        turns: picked ? -0.25 : 0,
+                        child: CircularWordWheel(
+                          items: _itemNames,
+                          initialIndex: _selected,
+                          onSelected: (i) => setState(() => _selected = i),
+                          onPicked: () {
+                            setState(() => picked = true);
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 96),
+                ],
+              ),
+            ),
+            ...List.generate(3, (idx) {
+              double turns0 = 0.25;
+              double turns1 = 0.25;
+              double opacity = 1;
+              double width = 250 - (idx * 20);
+              double bottomPadding = idx * 30;
+              switch (idx) {
+                case (0):
+                  turns0 = -0.2;
+                  turns1 = 0;
+                  opacity = 0;
+                  break;
+                case (1):
+                  turns0 = 0.1;
+                  turns1 = -0.007;
+                  opacity = 0.1;
+                  break;
+                case (2):
+                  turns0 = 0.08;
+                  turns1 = 0.007;
+                  opacity = 0.45;
+                  break;
+                default:
+                  turns1 = 0;
+                  opacity = 1;
+              }
+
+              return Center(
+                child: AnimatedSlide(
+                  duration: Duration(milliseconds: 600),
+                  offset: picked ? Offset(0, 0) : Offset(0, 1.8),
+                  child: AnimatedRotation(
+                    duration: Duration(milliseconds: 600),
+                    alignment: Alignment.bottomCenter,
+                    turns: picked ? turns1 : turns0,
+                    child: Container(
+                      height: 300,
+                      width: width,
+                      margin: EdgeInsets.only(bottom: bottomPadding),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: Stack(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(4.5),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          17.5,
+                                        ),
+                                      ),
+                                      clipBehavior: Clip.antiAlias,
+
+                                      child: AnimatedSwitcher(
+                                        duration: const Duration(
+                                          milliseconds: 250,
+                                        ),
+                                        child: Image.asset(
+                                          _foods[_selected].imageAsset,
+                                          key: ValueKey(
+                                            _foods[_selected].imageAsset,
+                                          ),
+                                          height: 166,
+                                          width: double.infinity,
+                                          fit: BoxFit.cover,
+                                          // Prevent a brief blank frame while changing meals.
+                                          gaplessPlayback: true,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: 12,
+                                    top: 12,
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 5,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withValues(
+                                          alpha: 0.8,
+                                        ),
+                                        borderRadius: BorderRadius.circular(18),
+                                      ),
+                                      child: const Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(
+                                            Icons.star_rounded,
+                                            size: 15,
+                                            color: Color(0xFFFFC107),
+                                          ),
+                                          SizedBox(width: 5),
+                                          Text(
+                                            '4.8 (80)',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                  16,
+                                  14,
+                                  16,
+                                  0,
+                                ),
+                                child: Text(
+                                  'Artisan ${_foods[_selected].name}',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: _font(
+                                    size: 18,
+                                    weight: FontWeight.w800,
+                                    color: Colors.black,
+                                    letterSpacing: -0.3,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                  16,
+                                  8,
+                                  16,
+                                  12,
+                                ),
+                                child: Text(
+                                  _foods[_selected].description,
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: _font(
+                                    size: 13,
+                                    weight: FontWeight.w400,
+                                    color: const Color(0xFF343434),
+                                    letterSpacing: 0,
+                                    height: 1.35,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Opacity(
+                            opacity: opacity,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
-                Expanded(
-                  child: CircularWordWheel(
-                    items: _items,
-                    initialIndex: _selected,
-                    onSelected: (i) => setState(() => _selected = i),
-                  ),
-                ),
-                const SizedBox(height: 96),
-              ],
+              );
+            }).reversed,
+
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: _BottomBar(
+                index: _navIndex,
+                onTap: (i) => setState(() => _navIndex = i),
+              ),
             ),
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: _BottomBar(
-              index: _navIndex,
-              onTap: (i) => setState(() => _navIndex = i),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -161,40 +487,89 @@ class _BakeHomePageState extends State<BakeHomePage> {
 /// Search field
 /// ---------------------------------------------------------------------------
 class _SearchField extends StatelessWidget {
-  const _SearchField();
+  final bool picked;
+  final VoidCallback onPop;
+  const _SearchField({this.picked = false, required this.onPop});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 46,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: Tokens.surface,
-        borderRadius: BorderRadius.circular(23),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
-      ),
-      child: Row(
-        children: [
-          const Icon(Icons.search_rounded, size: 19, color: Tokens.textMuted),
-          const SizedBox(width: 10),
-          Expanded(
-            child: TextField(
-              cursorColor: Tokens.textPrimary,
-              style: _font(size: 14, weight: FontWeight.w400),
-              decoration: InputDecoration(
-                isDense: true,
-                border: InputBorder.none,
-                hintText: 'Search',
-                hintStyle: _font(
-                  size: 14,
-                  weight: FontWeight.w400,
-                  color: Tokens.textMuted,
-                ),
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      transitionBuilder: (child, animation) {
+        return FadeTransition(opacity: animation, child: child);
+      },
+      child: picked
+          ? SizedBox(
+              height: 46,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: onPop,
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    'Your pick',
+                    style: _font(
+                      size: 14,
+                      weight: FontWeight.w500,
+                      color: AppColor.textPrimary,
+                    ),
+                  ),
+                  const Icon(
+                    Icons.search_rounded,
+                    size: 22,
+                    color: AppColor.textPrimary,
+                  ),
+                ],
+              ),
+            )
+          : Container(
+              height: 46,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                color: AppColor.surface,
+                borderRadius: BorderRadius.circular(23),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
+              ),
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: onPop,
+                    icon: const Icon(
+                      Icons.search_rounded,
+                      size: 19,
+                      color: AppColor.textMuted,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: TextField(
+                      cursorColor: AppColor.textPrimary,
+                      style: _font(size: 14, weight: FontWeight.w400),
+                      decoration: InputDecoration(
+                        isDense: true,
+                        border: InputBorder.none,
+                        hintText: 'Search',
+                        hintStyle: _font(
+                          size: 14,
+                          weight: FontWeight.w400,
+                          color: AppColor.textMuted,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
-      ),
     );
   }
 }
@@ -213,11 +588,13 @@ class CircularWordWheel extends StatefulWidget {
     required this.items,
     this.initialIndex = 0,
     this.onSelected,
+    this.onPicked,
   });
 
   final List<String> items;
   final int initialIndex;
   final ValueChanged<int>? onSelected;
+  final VoidCallback? onPicked;
 
   @override
   State<CircularWordWheel> createState() => _CircularWordWheelState();
@@ -357,23 +734,24 @@ class _CircularWordWheelState extends State<CircularWordWheel>
 
           children.add(
             Positioned(
-              left: 0,
-              top: 0,
-              child: Transform.translate(
-                offset: pos,
-                child: Transform.rotate(
-                  angle: angle,
-                  alignment: Alignment.centerLeft,
-                  child: FractionalTranslation(
-                    translation: const Offset(0, -0.5),
+              left: pos.dx,
+              top: pos.dy,
+              child: Transform.rotate(
+                angle: angle,
+                alignment: Alignment.centerLeft,
+                child: FractionalTranslation(
+                  translation: const Offset(0, -0.5),
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: selected ? widget.onPicked : null,
                     child: AnimatedDefaultTextStyle(
                       duration: const Duration(milliseconds: 160),
                       style: _font(
                         size: selected ? selectedSize : fontSize,
                         weight: selected ? FontWeight.w700 : FontWeight.w500,
                         color: selected
-                            ? Tokens.textPrimary
-                            : Tokens.textPrimary.withValues(
+                            ? AppColor.textPrimary
+                            : AppColor.textPrimary.withValues(
                                 alpha: opacity * 0.55,
                               ),
                         letterSpacing: selected ? -0.6 : -0.1,
@@ -404,36 +782,34 @@ class _CircularWordWheelState extends State<CircularWordWheel>
                 left: _centerX + _radius - 20,
                 top: centerY - 25,
                 child: IgnorePointer(
-                  child: Container(
-                    width: 260,
-                    height: 50,
+                  child: AnimatedOpacity(
+                    opacity: _dragging ? 0.6 : 1,
+                    duration: Duration(milliseconds: 350),
+                    child: Container(
+                      width: 260,
+                      height: 50,
 
-                    transform: Matrix4.identity()
-                      ..setEntry(3, 2, -0.005)
-                      ..rotateY(-0.6)
-                      ..rotateX(0.12)
-                      ..rotateZ(-0.08),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      gradient: LinearGradient(
-                        colors: [
-                          Tokens.glow.withValues(alpha: 0.15),
-                          Colors.transparent,
-                        ],
-                        // stops: const [0.0, 1.0],
+                      transform: Matrix4.identity()
+                        ..setEntry(3, 2, -0.005)
+                        ..rotateY(-0.6)
+                        ..rotateX(0.12)
+                        ..rotateZ(-0.08),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: LinearGradient(
+                          colors: [
+                            AppColor.glow.withValues(alpha: 0.18),
+                            Colors.transparent,
+                          ],
+                          // stops: const [0.0, 1.0],
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
               // Faint dial rings.
-              DialRings(
-                center: center,
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: DialRings(center: Offset.zero),
-                ),
-              ),
+              Transform.scale(scaleY: 1.25, child: DialRings(center: center)),
               ...children,
               // Custom scroll indicator on the right edge.
               Positioned(
@@ -469,21 +845,28 @@ class DialRings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Transform.translate(
-      offset: Offset(-250, center.dy / 10),
+      offset: Offset(-250, center.dy / 20),
       child: IgnorePointer(
         child: Container(
+          padding: EdgeInsets.all(50),
+          alignment: Alignment.center,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             gradient: RadialGradient(
               colors: [
-                Tokens.bg,
-                Colors.grey.shade800.withValues(alpha: 0.18),
+                AppColor.bg,
+                Colors.grey.shade800.withValues(alpha: 0.10),
               ],
               stops: const [0.915, 1.0],
             ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.3),
+                blurRadius: 20,
+                spreadRadius: 10,
+              ),
+            ],
           ),
-          alignment: Alignment.center,
-          padding: EdgeInsets.all(50),
           child: Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -583,11 +966,7 @@ class _WheelScrollbar extends StatelessWidget {
                         color: Color(0xFF2A2A2A),
                       ),
                       SizedBox(height: 1),
-                      Icon(
-                        Icons.menu,
-                        size: 12,
-                        color: Color(0xFF2A2A2A),
-                      ),
+                      Icon(Icons.menu, size: 12, color: Color(0xFF2A2A2A)),
                       SizedBox(height: 1),
                       Icon(
                         Icons.keyboard_arrow_down_rounded,
@@ -634,7 +1013,7 @@ class _BottomBar extends StatelessWidget {
         height: 64,
         padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
-          color: Tokens.surfaceHigh,
+          color: AppColor.surfaceHigh,
           borderRadius: BorderRadius.circular(32),
           border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
         ),
@@ -660,7 +1039,7 @@ class _BottomBar extends StatelessWidget {
                       size: 21,
                       color: selected
                           ? const Color(0xFF121212)
-                          : Tokens.textMuted,
+                          : AppColor.textMuted,
                     ),
                   ),
                 ),
